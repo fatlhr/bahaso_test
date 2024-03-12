@@ -1,4 +1,4 @@
-import 'package:bahaso_test/core/result.dart';
+import 'package:bahaso_test/core/result/result.dart';
 import 'package:bahaso_test/features/auth/data/models/login_success_model.dart';
 import 'package:bahaso_test/features/auth/data/models/register_success_model.dart';
 
