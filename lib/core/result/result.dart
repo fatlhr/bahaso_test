@@ -20,5 +20,5 @@ class Success<T> extends Result<T> {
 class Failed<T> extends Result<T> {
   final String message;
 
-  const Failed(this.message);
+  const Failed([this.message = 'An unexpected error occurred,']);
 }
