@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
+            VALUE "CompanyName", "com.bahasofatih" "\0"
             VALUE "FileDescription", "bahaso_test" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "bahaso_test" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 com.bahasofatih. All rights reserved." "\0"
             VALUE "OriginalFilename", "bahaso_test.exe" "\0"
             VALUE "ProductName", "bahaso_test" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
