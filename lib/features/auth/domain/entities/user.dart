@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class User {
   final int id;
   final String email;
@@ -14,5 +12,4 @@ class User {
     required this.lastName,
     required this.avatar,
   });
-
-  }
+}

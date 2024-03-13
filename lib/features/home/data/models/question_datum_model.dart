@@ -22,7 +22,7 @@ class QuestionDatumModel extends QuestionDatum {
   factory QuestionDatumModel.fromJson(Map<String, dynamic> json) =>
       QuestionDatumModel(
         question: List<String>.from(json["question"].map((x) => x)),
-        questionnumber: json["questionnumber"],
+        questionnumber: json["questionnumber"].toString(),
         typequestion: json["typequestion"],
         name: json["name"],
         value: json["value"],
@@ -38,6 +38,6 @@ class QuestionDatumModel extends QuestionDatum {
         "name": name,
         "value": value,
         "grade": grade,
-        "data": List<ChoiceDatumModel>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
       };
 }

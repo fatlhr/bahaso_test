@@ -2,7 +2,7 @@ import '../../data/models/choice_datum_model.dart';
 
 class QuestionDatum {
   final List<String> question;
-  final int questionnumber;
+  final String questionnumber;
   final String typequestion;
   final String name;
   final String value;

@@ -1,3 +1,4 @@
+import 'package:bahaso_test/features/home/presentation/bloc/quiz_bloc/quiz_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,6 +24,9 @@ void main() async {
         ),
         BlocProvider(
           create: (_) => serviceLocator<CurrentUserBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => serviceLocator<QuizBloc>(),
         )
       ],
       child: const MyApp(),

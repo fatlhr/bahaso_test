@@ -3,6 +3,7 @@
 import 'package:bahaso_test/features/auth/domain/entities/login_success.dart';
 import 'package:bahaso_test/features/auth/presentation/bloc/current_user/current_user_bloc.dart';
 import 'package:bahaso_test/features/auth/presentation/pages/register_page.dart';
+import 'package:bahaso_test/features/home/presentation/bloc/quiz_bloc/quiz_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,9 +44,8 @@ class _LoginPageState extends State<LoginPage> {
               Text(state.message),
             );
           } else if (state is AuthSuccess<LoginSuccess>) {
-            context.read<CurrentUserBloc>().add(
-                  CurrentUserLoggedIn(),
-                );
+            context.read<CurrentUserBloc>().add(CurrentUserLoggedIn());
+            context.read<QuizBloc>().add(QuizLoaded());
             Navigator.pushAndRemoveUntil(
               context,
               HomePage.route(),
@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
 
             showSnackBar(
               context,
-              Text(state.user.token),
+              const Text("Login Success!"),
             );
             emailController.clear();
             passwordController.clear();

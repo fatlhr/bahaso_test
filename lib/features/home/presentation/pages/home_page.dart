@@ -2,8 +2,11 @@
 
 import 'package:bahaso_test/core/theme/app_pallete.dart';
 import 'package:bahaso_test/features/auth/presentation/bloc/current_user/current_user_bloc.dart';
+import 'package:bahaso_test/features/home/presentation/bloc/quiz_bloc/quiz_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../auth/presentation/pages/login_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -72,14 +75,26 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             },
-            // BlocConsumer<SubjectBloc, SubjectState>(
-            //   listener: (context, state) {
-            //     // TODO: implement listener
-            //   },
-            //   builder: (context, state) {
-            //     return Container();
-            //   },
-            // ),
+          ),
+          BlocConsumer<QuizBloc, QuizState>(
+            listener: (context, state) {
+              if (state is QuizFailure) {
+                showSnackBar(
+                  context,
+                  Text(state.message),
+                );
+              }
+            },
+            builder: (context, state) {
+              if (state is QuizLoading) {
+                return const SliverToBoxAdapter(
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+              return const SliverToBoxAdapter(
+                child: Text("Quiz Loaded"),
+              );
+            },
           ),
         ],
       ),
