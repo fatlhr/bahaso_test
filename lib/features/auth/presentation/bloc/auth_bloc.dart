@@ -48,7 +48,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: event.password,
       ),
     );
-
     return switch (res) {
       Success<LoginSuccess>(value: final data) => _emitAuthSuccess(data, emit),
       Failed<LoginSuccess>(message: final m) => emit(AuthFailure(m)),
