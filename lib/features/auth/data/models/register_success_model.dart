@@ -14,7 +14,7 @@ class RegisterSuccessModel extends RegisterSuccess {
   }
 
   RegisterSuccessModel copyWith({
-    String? id,
+    int? id,
     String? token,
   }) {
     return RegisterSuccessModel(

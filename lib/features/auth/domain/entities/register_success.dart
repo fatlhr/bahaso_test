@@ -1,5 +1,5 @@
 class RegisterSuccess {
-  String id;
+  int id;
   String token;
   RegisterSuccess({
     required this.id,

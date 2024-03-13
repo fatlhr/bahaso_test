@@ -11,6 +11,7 @@ import '../widgets/auth_field.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+  static route() => MaterialPageRoute(builder: (context) => const LoginPage());
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -34,7 +35,10 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthFailure) {
-            showSnackBar(context, state.message);
+            showSnackBar(
+              context,
+              Text(state.message),
+            );
           } else if (state is AuthSuccess) {
             // Navigator.pushAndRemoveUntil(
             //   context,
@@ -123,12 +127,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-void showSnackBar(BuildContext context, String content) {
+void showSnackBar(BuildContext context, Widget content) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(
       SnackBar(
-        content: Text(content),
+        content: content,
       ),
     );
 }

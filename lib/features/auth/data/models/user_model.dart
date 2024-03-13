@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../domain/entities/user.dart';
 
 class UserModel extends User {
@@ -23,6 +25,11 @@ class UserModel extends User {
       avatar: avatar ?? this.avatar,
     );
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source));
 
   Map<String, dynamic> toMap() {
     return {
