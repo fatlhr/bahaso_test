@@ -7,6 +7,7 @@ import 'core/network/connection_checker.dart';
 import 'features/auth/data/datasources/auth_remote_datasource.dart';
 import 'features/auth/data/respositories/auth_repositories_impl.dart';
 import 'features/auth/domain/repository/auth_repository.dart';
+import 'features/auth/domain/usecases/current_user.dart';
 import 'features/auth/domain/usecases/user_login.dart';
 import 'features/auth/domain/usecases/user_register.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
@@ -37,7 +38,7 @@ void _initAuth() {
   serviceLocator
     ..registerFactory<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(
-        serviceLocator(),
+        dio: serviceLocator(),
       ),
     )
     // Repository
@@ -48,22 +49,29 @@ void _initAuth() {
       ),
     )
     // Usecases
-    ..registerFactory(
+    ..registerFactory<UserRegister>(
       () => UserRegister(
         serviceLocator(),
       ),
     )
-    ..registerFactory(
+    ..registerFactory<UserLogin>(
       () => UserLogin(
         serviceLocator(),
       ),
     )
-    ..registerLazySingleton(
-      () => AuthBloc(
-        userRegister: serviceLocator(),
-        userLogin: serviceLocator(),
-        appUserCubit: serviceLocator(),
-        currentUser: serviceLocator(),
+    ..registerFactory(
+      () => CurrentUser(
+        serviceLocator(),
       ),
     );
+
+  // Register AuthBloc
+  serviceLocator.registerLazySingleton<AuthBloc>(
+    () => AuthBloc(
+      userRegister: serviceLocator(),
+      userLogin: serviceLocator(),
+      appUserCubit: serviceLocator(),
+      currentUser: serviceLocator(),
+    ),
+  );
 }

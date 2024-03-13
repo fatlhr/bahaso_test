@@ -20,7 +20,7 @@ abstract interface class AuthRemoteDataSource {
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final Dio _dio;
 
-  AuthRemoteDataSourceImpl(Object object, {Dio? dio}) : _dio = dio ?? Dio();
+  AuthRemoteDataSourceImpl({Dio? dio}) : _dio = dio ?? Dio();
   @override
   Future<LoginSuccessModel> loginWithEmailPassword({
     required String email,
