@@ -42,6 +42,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthLogin event,
     Emitter<AuthState> emit,
   ) async {
+    if (event.password.length < 6) {
+      return emit(
+        const AuthFailure('Password cannot be less than 6 characters!'),
+      );
+    } else if (event.email != "eve.holt@reqres.in") {
+      return emit(
+        const AuthFailure('Account not found!'),
+      );
+    }
     final res = await _userLogin(
       UserAuthParams(
         email: event.email,
