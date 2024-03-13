@@ -1,17 +1,16 @@
 import 'package:bahaso_test/core/result/result.dart';
-import 'package:bahaso_test/features/auth/data/models/user_model.dart';
 import 'package:bahaso_test/features/auth/domain/entities/login_success.dart';
 import 'package:bahaso_test/features/auth/domain/entities/register_success.dart';
 import 'package:bahaso_test/features/auth/domain/entities/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/common/cubits/app_user/app_user_cubit.dart';
-import '../../../../core/usecase/usecase.dart';
-import '../../domain/usecases/current_user.dart';
-import '../../domain/usecases/params/user_auth_params.dart';
-import '../../domain/usecases/user_login.dart';
-import '../../domain/usecases/user_register.dart';
+import '../../../../../core/common/cubits/app_user/app_user_cubit.dart';
+import '../../../../../core/usecase/usecase.dart';
+import '../../../domain/usecases/current_user.dart';
+import '../../../domain/usecases/params/user_auth_params.dart';
+import '../../../domain/usecases/user_login.dart';
+import '../../../domain/usecases/user_register.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -93,7 +92,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     return switch (res) {
       Success<User>(value: final data) => _emitCurrentUser(data, emit),
-      Failed<User>(message: final m) => emit(AuthFailure(m)),
+      Failed<User>(message: final _) => emit(AuthInitial()),
     };
   }
 
@@ -119,10 +118,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) {
     _appUserCubit.updateUser(user);
     emit(AuthSuccess(user));
-  }
-
-  bool isEmailValid(String email, List<UserModel> userList) {
-    // Mengecek apakah email ada dalam daftar email pengguna
-    return userList.any((user) => user.email == email);
   }
 }

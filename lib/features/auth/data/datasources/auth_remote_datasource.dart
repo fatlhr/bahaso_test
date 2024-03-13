@@ -56,11 +56,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel?> getCurrentUserData() async {
     try {
-      final response = await _dio.post(
+      final response = await _dio.get(
         '${Const.reqresApi}/users/4',
       );
-      print("current user response: ${response.data["data"]}");
-      return UserModel.fromJson(response.data["data"]);
+
+      return UserModel.fromMap(response.data["data"]);
     } catch (e) {
       throw ServerException(e.toString());
     }

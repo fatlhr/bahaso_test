@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/common/cubits/app_user/app_user_cubit.dart';
 import 'core/theme/theme.dart';
-import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/auth/presentation/bloc/auth/auth_bloc.dart';
+import 'features/auth/presentation/bloc/current_user/current_user_bloc.dart';
 import 'features/auth/presentation/pages/login_page.dart';
+import 'features/home/presentation/pages/home_page.dart';
 import 'init_dependencies.dart';
 
 void main() async {
@@ -19,6 +21,9 @@ void main() async {
         BlocProvider(
           create: (_) => serviceLocator<AuthBloc>(),
         ),
+        BlocProvider(
+          create: (_) => serviceLocator<CurrentUserBloc>(),
+        )
       ],
       child: const MyApp(),
     ),
@@ -36,27 +41,27 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(AuthIsUserLoggedIn());
+    // context.read<AuthBloc>().add(AuthIsUserLoggedIn());
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Bahaso App',
-        theme: AppTheme.darkThemeMode,
-        home: const LoginPage()
-        // BlocSelector<AppUserCubit, AppUserState, bool>(
-        //   selector: (state) {
-        //     return state is AppUserLoggedIn;
-        //   },
-        //   builder: (context, isLoggedIn) {
-        //     if (isLoggedIn) {
-        //       return const HomePage();
-        //     }
-        //     return const LoginPage();
-        //   },
-        // ),
-        );
+      debugShowCheckedModeBanner: false,
+      title: 'Bahaso App',
+      theme: AppTheme.darkThemeMode,
+      // home: const LoginPage()
+      home: BlocSelector<AppUserCubit, AppUserState, bool>(
+        selector: (state) {
+          return state is AppUserLoggedIn;
+        },
+        builder: (context, isLoggedIn) {
+          if (isLoggedIn) {
+            return const HomePage();
+          }
+          return const LoginPage();
+        },
+      ),
+    );
   }
 }

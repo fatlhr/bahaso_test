@@ -35,8 +35,8 @@ class UserModel extends User {
     return {
       'id': id,
       'email': email,
-      'firstName': firstName,
-      'lastName': lastName,
+      'first_name': firstName,
+      'last_name': lastName,
       'avatar': avatar,
     };
   }
@@ -45,15 +45,15 @@ class UserModel extends User {
     return UserModel(
       id: map['id']?.toInt() ?? 0,
       email: map['email'] ?? '',
-      firstName: map['firstName'] ?? '',
-      lastName: map['lastName'] ?? '',
+      firstName: map['first_name'] ?? '',
+      lastName: map['last_name'] ?? '',
       avatar: map['avatar'] ?? '',
     );
   }
 
   @override
   String toString() {
-    return 'User(id: $id, email: $email, firstName: $firstName, lastName: $lastName, avatar: $avatar)';
+    return 'User(id: $id, email: $email, first_name: $firstName, last_name: $lastName, avatar: $avatar)';
   }
 
   @override

@@ -10,7 +10,8 @@ import 'features/auth/domain/repository/auth_repository.dart';
 import 'features/auth/domain/usecases/current_user.dart';
 import 'features/auth/domain/usecases/user_login.dart';
 import 'features/auth/domain/usecases/user_register.dart';
-import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/auth/presentation/bloc/auth/auth_bloc.dart';
+import 'features/auth/presentation/bloc/current_user/current_user_bloc.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -73,5 +74,8 @@ void _initAuth() {
       appUserCubit: serviceLocator(),
       currentUser: serviceLocator(),
     ),
+  );
+  serviceLocator.registerLazySingleton<CurrentUserBloc>(
+    () => CurrentUserBloc(currentUser: serviceLocator()),
   );
 }

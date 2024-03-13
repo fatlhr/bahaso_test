@@ -1,5 +1,4 @@
 import 'package:bahaso_test/core/result/result.dart';
-import 'package:bahaso_test/features/auth/data/models/user_model.dart';
 import 'package:bahaso_test/features/auth/domain/entities/login_success.dart';
 import 'package:bahaso_test/features/auth/domain/entities/register_success.dart';
 
@@ -46,19 +45,21 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Result<User>> currentUser() async {
+    print("currentUser repo impl");
     try {
-      if (!await (connectionChecker.isConnected)) {
-        return Result.success(
-          UserModel(
-            id: 4,
-            email: "eve.holt@reqres.in",
-            firstName: "Eve",
-            lastName: "Holt",
-            avatar: "https://reqres.in/img/faces/4-image.jpg",
-          ),
-        );
-      }
+      // if (!await (connectionChecker.isConnected)) {
+      //   return Result.success(
+      //     UserModel(
+      //       id: 4,
+      //       email: "eve.holt@reqres.in",
+      //       firstName: "Eve",
+      //       lastName: "Holt",
+      //       avatar: "https://reqres.in/img/faces/4-image.jpg",
+      //     ),
+      //   );
+      // }
       final user = await remoteDataSource.getCurrentUserData();
+      print("currentUser repo impl: $user");
       if (user == null) {
         return const Result.failed('User not logged in!');
       }

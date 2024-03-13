@@ -1,11 +1,14 @@
 // ignore_for_file: camel_case_types, prefer_typing_uninitialized_variables
 
+import 'package:bahaso_test/features/auth/domain/entities/login_success.dart';
+import 'package:bahaso_test/features/auth/presentation/bloc/current_user/current_user_bloc.dart';
 import 'package:bahaso_test/features/auth/presentation/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_pallete.dart';
-import '../bloc/auth_bloc.dart';
+import '../../../home/presentation/pages/home_page.dart';
+import '../bloc/auth/auth_bloc.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/auth_field.dart';
 
@@ -18,8 +21,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final emailController = TextEditingController(text: "eve.holt@reqres.in");
+  final passwordController = TextEditingController(text: "dfsfafasd");
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -39,15 +42,22 @@ class _LoginPageState extends State<LoginPage> {
               context,
               Text(state.message),
             );
-          } else if (state is AuthSuccess) {
-            // Navigator.pushAndRemoveUntil(
-            //   context,
-            //   HomePage.route(),
-            //   (route) => false,
-            // );
+          } else if (state is AuthSuccess<LoginSuccess>) {
+            context.read<CurrentUserBloc>().add(
+                  CurrentUserLoggedIn(),
+                );
+            Navigator.pushAndRemoveUntil(
+              context,
+              HomePage.route(),
+              (route) => false,
+            );
+
+            showSnackBar(
+              context,
+              Text(state.user.token),
+            );
             emailController.clear();
             passwordController.clear();
-            showSnackBar(context, state.user.token);
           }
         },
         builder: (context, state) {
