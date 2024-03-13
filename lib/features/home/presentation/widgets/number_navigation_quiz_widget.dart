@@ -1,6 +1,6 @@
+import 'package:bahaso_test/core/theme/app_pallete.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_pallete.dart';
 import '../../data/models/question_datum_model.dart';
 
 class NumberNavigationQuizWidget extends StatelessWidget {
@@ -26,27 +26,16 @@ class NumberNavigationQuizWidget extends StatelessWidget {
               vertical: 16.0,
               horizontal: 8.0,
             ),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(30),
-              onTap: () {},
-              child: Container(
-                height: size.height / 8,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppPallete.borderColor,
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
+            child: ClipOval(
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: AppPallete.gradient1, // text color
+                  elevation: 5, // elevation
+                  shape: const CircleBorder(), // circular shape
                 ),
-                child: CircleAvatar(
-                  radius: 24.0,
-                  backgroundColor: AppPallete.gradient1,
-                  child: Text(data[index].questionnumber),
-                ),
+                child: Text(data[index].questionnumber),
               ),
             ),
           );
