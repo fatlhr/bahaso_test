@@ -35,6 +35,7 @@ dependencies:
   flutter_bloc: ^8.1.4
   get_it: ^7.6.7
   internet_connection_checker_plus: ^2.2.0
+  sliver_tools: ^0.2.12
 
 dev_dependencies:
   flutter_lints: ^2.0.0

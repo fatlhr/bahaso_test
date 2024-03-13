@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // context.read<AuthBloc>().add(AuthIsUserLoggedIn());
+    context.read<AuthBloc>().add(AuthIsUserLoggedIn());
   }
 
   @override
@@ -61,6 +61,8 @@ class _MyAppState extends State<MyApp> {
         },
         builder: (context, isLoggedIn) {
           if (isLoggedIn) {
+            context.read<CurrentUserBloc>().add(CurrentUserLoggedIn());
+            context.read<QuizBloc>().add(QuizLoaded());
             return const HomePage();
           }
           return const LoginPage();

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../auth/presentation/pages/login_page.dart';
+import '../widgets/number_navigation_quiz_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,10 +19,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final PageController _pageController = PageController();
+  final int _activePage = 0;
+
   @override
   Widget build(BuildContext context) {
+    // Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: CustomScrollView(
+        shrinkWrap: true,
         slivers: [
           BlocBuilder<CurrentUserBloc, CurrentUserState>(
             builder: (context, state) {
@@ -91,8 +97,41 @@ class _HomePageState extends State<HomePage> {
                   child: Center(child: CircularProgressIndicator()),
                 );
               }
+              if (state is QuizSuccess) {
+                final data = state.data.data;
+                return SliverFillRemaining(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: PageView.builder(
+                          controller: _pageController,
+                          itemCount: data.length,
+                          onPageChanged: (int page) {},
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              decoration: const BoxDecoration(
+                                color: AppPallete.borderColor,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30.0),
+                                ),
+                              ),
+                              margin: const EdgeInsets.all(16.0),
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(data[index].name),
+                            );
+                          },
+                        ),
+                      ),
+                      NumberNavigationQuizWidget(data: data),
+                      const SizedBox(height: 16.0),
+                    ],
+                  ),
+                );
+              }
               return const SliverToBoxAdapter(
-                child: Text("Quiz Loaded"),
+                child: Center(
+                  child: Text("Error!"),
+                ),
               );
             },
           ),
