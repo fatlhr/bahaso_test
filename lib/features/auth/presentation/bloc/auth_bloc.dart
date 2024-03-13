@@ -2,6 +2,7 @@ import 'package:bahaso_test/core/result/result.dart';
 import 'package:bahaso_test/features/auth/data/models/user_model.dart';
 import 'package:bahaso_test/features/auth/domain/entities/login_success.dart';
 import 'package:bahaso_test/features/auth/domain/entities/register_success.dart';
+import 'package:bahaso_test/features/auth/domain/entities/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -91,8 +92,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final res = await _currentUser(NoParams());
 
     return switch (res) {
-      Success<LoginSuccess>(value: final data) => _emitLoginSuccess(data, emit),
-      Failed<LoginSuccess>(message: final m) => emit(AuthFailure(m)),
+      Success<User>(value: final data) => _emitCurrentUser(data, emit),
+      Failed<User>(message: final m) => emit(AuthFailure(m)),
     };
   }
 
@@ -109,6 +110,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) {
     // _appUserCubit.updateUser(user);
+    emit(AuthSuccess(user));
+  }
+
+  void _emitCurrentUser(
+    User user,
+    Emitter<AuthState> emit,
+  ) {
+    _appUserCubit.updateUser(user);
     emit(AuthSuccess(user));
   }
 

@@ -1,9 +1,11 @@
 import 'package:bahaso_test/core/result/result.dart';
+import 'package:bahaso_test/features/auth/data/models/user_model.dart';
 import 'package:bahaso_test/features/auth/domain/entities/login_success.dart';
 import 'package:bahaso_test/features/auth/domain/entities/register_success.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/connection_checker.dart';
+import '../../domain/entities/user.dart';
 import '../../domain/repository/auth_repository.dart';
 import '../datasources/auth_remote_datasource.dart';
 
@@ -43,23 +45,25 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Result<LoginSuccess>> currentUser() async {
+  Future<Result<User>> currentUser() async {
     try {
       if (!await (connectionChecker.isConnected)) {
-        // final session = remoteDataSource.currentUserSession;
-
-        // if (session == null) {
-        //   return const Result.failed('User not logged in!');
-        // }
-
-        return Result.success(LoginSuccess(token: ''));
+        return Result.success(
+          UserModel(
+            id: 4,
+            email: "eve.holt@reqres.in",
+            firstName: "Eve",
+            lastName: "Holt",
+            avatar: "https://reqres.in/img/faces/4-image.jpg",
+          ),
+        );
       }
-      // final user = await remoteDataSource.getCurrentUserData();
-      // if (user == null) {
-      //   return const Result.failed('User not logged in!');
-      // }
+      final user = await remoteDataSource.getCurrentUserData();
+      if (user == null) {
+        return const Result.failed('User not logged in!');
+      }
 
-      return Result.success(LoginSuccess(token: ''));
+      return Result.success(user);
     } on ServerException catch (e) {
       return Result.failed(e.message);
     }

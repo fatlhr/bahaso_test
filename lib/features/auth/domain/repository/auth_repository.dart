@@ -1,3 +1,5 @@
+import 'package:bahaso_test/features/auth/domain/entities/user.dart';
+
 import '../../../../core/result/result.dart';
 import '../entities/login_success.dart';
 import '../entities/register_success.dart';
@@ -11,5 +13,5 @@ abstract interface class AuthRepository {
     required String email,
     required String password,
   });
-  Future<Result<LoginSuccess>> currentUser();
+  Future<Result<User>> currentUser();
 }
