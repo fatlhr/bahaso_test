@@ -18,17 +18,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<CurrentUserBloc, CurrentUserState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          if (state is CurrentUserLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state is CurrentUserSuccess) {
-            return CustomScrollView(
-              shrinkWrap: true,
-              slivers: [
-                SliverAppBar(
+      body: CustomScrollView(
+        slivers: [
+          BlocBuilder<CurrentUserBloc, CurrentUserState>(
+            builder: (context, state) {
+              if (state is CurrentUserLoading) {
+                return const SliverToBoxAdapter(
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+              if (state is CurrentUserSuccess) {
+                return SliverAppBar(
                   backgroundColor: AppPallete.borderColor,
                   centerTitle: false,
                   leading: Padding(
@@ -39,11 +39,21 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  actions: const [
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(Icons.more_vert),
-                    ),
+                  actions: [
+                    PopupMenuButton(
+                      icon: const Icon(Icons.more_vert),
+                      onSelected: (value) {
+                        // your logic
+                      },
+                      itemBuilder: (BuildContext bc) {
+                        return const [
+                          PopupMenuItem(
+                            value: '/logout',
+                            child: Text("Logout"),
+                          ),
+                        ];
+                      },
+                    )
                   ],
                   title: ListTile(
                     title: Text(
@@ -51,17 +61,27 @@ class _HomePageState extends State<HomePage> {
                     ),
                     subtitle: Text(state.user.email),
                   ),
+                );
+              }
+              return const SliverToBoxAdapter(
+                child: Center(
+                  child: Icon(
+                    Icons.error,
+                    size: 24.0,
+                  ),
                 ),
-              ],
-            );
-          }
-          return const Center(
-            child: Icon(
-              Icons.error,
-              size: 24.0,
-            ),
-          );
-        },
+              );
+            },
+            // BlocConsumer<SubjectBloc, SubjectState>(
+            //   listener: (context, state) {
+            //     // TODO: implement listener
+            //   },
+            //   builder: (context, state) {
+            //     return Container();
+            //   },
+            // ),
+          ),
+        ],
       ),
     );
   }
