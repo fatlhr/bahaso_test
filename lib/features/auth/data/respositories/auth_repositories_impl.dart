@@ -1,6 +1,6 @@
 import 'package:bahaso_test/core/result/result.dart';
-import 'package:bahaso_test/features/auth/data/models/login_success_model.dart';
-import 'package:bahaso_test/features/auth/data/models/register_success_model.dart';
+import 'package:bahaso_test/features/auth/domain/entities/login_success.dart';
+import 'package:bahaso_test/features/auth/domain/entities/register_success.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/connection_checker.dart';
@@ -17,7 +17,7 @@ class AuthRepositoryImpl implements AuthRepository {
   );
 
   @override
-  Future<Result<LoginSuccessModel>> loginWithEmailPassword({
+  Future<Result<LoginSuccess>> loginWithEmailPassword({
     required String email,
     required String password,
   }) async {
@@ -30,11 +30,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Result<RegisterSuccessModel>> registerWithEmailPassword({
+  Future<Result<RegisterSuccess>> registerWithEmailPassword({
     required String email,
     required String password,
   }) {
-    return _getUser(
+    return _createUser(
       () async => await remoteDataSource.registerWithEmailPassword(
         email: email,
         password: password,
@@ -42,8 +42,46 @@ class AuthRepositoryImpl implements AuthRepository {
     );
   }
 
-  Future<Result<T>> _getUser<T>(
-    Future<T> Function() fn,
+  @override
+  Future<Result<LoginSuccess>> currentUser() async {
+    try {
+      if (!await (connectionChecker.isConnected)) {
+        // final session = remoteDataSource.currentUserSession;
+
+        // if (session == null) {
+        //   return const Result.failed('User not logged in!');
+        // }
+
+        return Result.success(LoginSuccess(token: ''));
+      }
+      // final user = await remoteDataSource.getCurrentUserData();
+      // if (user == null) {
+      //   return const Result.failed('User not logged in!');
+      // }
+
+      return Result.success(LoginSuccess(token: ''));
+    } on ServerException catch (e) {
+      return Result.failed(e.message);
+    }
+  }
+
+  Future<Result<LoginSuccess>> _getUser(
+    Future<LoginSuccess> Function() fn,
+  ) async {
+    try {
+      if (!await (connectionChecker.isConnected)) {
+        return const Result.failed("");
+      }
+      final user = await fn();
+
+      return Result.success(user);
+    } on ServerException catch (e) {
+      return Result.failed(e.message);
+    }
+  }
+
+  Future<Result<RegisterSuccess>> _createUser(
+    Future<RegisterSuccess> Function() fn,
   ) async {
     try {
       if (!await (connectionChecker.isConnected)) {

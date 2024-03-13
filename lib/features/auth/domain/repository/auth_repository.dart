@@ -1,16 +1,15 @@
-import 'package:bahaso_test/features/auth/data/models/login_success_model.dart';
-import 'package:bahaso_test/features/auth/data/models/register_success_model.dart';
-
 import '../../../../core/result/result.dart';
+import '../entities/login_success.dart';
+import '../entities/register_success.dart';
 
 abstract interface class AuthRepository {
-  Future<Result<RegisterSuccessModel>> registerWithEmailPassword({
+  Future<Result<RegisterSuccess>> registerWithEmailPassword({
     required String email,
     required String password,
   });
-  Future<Result<LoginSuccessModel>> loginWithEmailPassword({
+  Future<Result<LoginSuccess>> loginWithEmailPassword({
     required String email,
     required String password,
   });
-  // Future<Result<LoginSuccessModel>> currentUser();
+  Future<Result<LoginSuccess>> currentUser();
 }

@@ -1,6 +1,9 @@
 // ignore_for_file: camel_case_types, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/auth_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,16 +17,21 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Login"),
+        title: const Text("Dashboard"),
         actions: const [],
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(10.0),
-          child: const Column(
-            children: [],
-          ),
-        ),
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(10.0),
+              child: const Column(
+                children: [],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
