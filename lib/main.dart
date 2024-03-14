@@ -7,6 +7,7 @@ import 'core/theme/theme.dart';
 import 'features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'features/auth/presentation/bloc/current_user/current_user_bloc.dart';
 import 'features/auth/presentation/pages/login_page.dart';
+import 'features/home/presentation/bloc/question_page/question_page_bloc.dart';
 import 'features/home/presentation/pages/home_page.dart';
 import 'init_dependencies.dart';
 
@@ -27,6 +28,9 @@ void main() async {
         ),
         BlocProvider(
           create: (_) => serviceLocator<QuizBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => serviceLocator<QuestionPageBloc>(),
         )
       ],
       child: const MyApp(),

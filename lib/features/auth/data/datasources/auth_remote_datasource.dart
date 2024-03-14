@@ -49,7 +49,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         "password": password,
       },
     );
-    print("register response: ${response.data}");
+    // print("register response: ${response.data}");
     return RegisterSuccessModel.fromJson(response.data);
   }
 

@@ -45,7 +45,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Result<User>> currentUser() async {
-    print("currentUser repo impl");
+    // print("currentUser repo impl");
     try {
       // if (!await (connectionChecker.isConnected)) {
       //   return Result.success(
@@ -59,7 +59,7 @@ class AuthRepositoryImpl implements AuthRepository {
       //   );
       // }
       final user = await remoteDataSource.getCurrentUserData();
-      print("currentUser repo impl: $user");
+      // print("currentUser repo impl: $user");
       if (user == null) {
         return const Result.failed('User not logged in!');
       }

@@ -1,13 +1,17 @@
 // ignore_for_file: camel_case_types, prefer_typing_uninitialized_variables
 
-import 'package:bahaso_test/core/theme/app_pallete.dart';
-import 'package:bahaso_test/features/auth/presentation/bloc/current_user/current_user_bloc.dart';
-import 'package:bahaso_test/features/home/presentation/bloc/quiz_bloc/quiz_bloc.dart';
+import 'package:bahaso_test/core/enum/enum.dart';
+import 'package:bahaso_test/features/home/presentation/bloc/question_page/question_page_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/theme/app_pallete.dart';
+import '../../../auth/presentation/bloc/current_user/current_user_bloc.dart';
 import '../../../auth/presentation/pages/login_page.dart';
+import '../bloc/quiz_bloc/quiz_bloc.dart';
+import '../widgets/multiple_choice_widget.dart';
 import '../widgets/number_navigation_quiz_widget.dart';
+import '../widgets/question_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,11 +24,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final PageController _pageController = PageController();
-  final int _activePage = 0;
 
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
+    final questionPageBloc = BlocProvider.of<QuestionPageBloc>(context);
     return Scaffold(
       body: CustomScrollView(
         shrinkWrap: true,
@@ -106,7 +109,10 @@ class _HomePageState extends State<HomePage> {
                         child: PageView.builder(
                           controller: _pageController,
                           itemCount: data.length,
-                          onPageChanged: (int page) {},
+                          onPageChanged: (int page) {
+                            questionPageBloc
+                                .add(QuestionPageUpdated(pageIndex: page));
+                          },
                           itemBuilder: (BuildContext context, int index) {
                             return Container(
                               decoration: const BoxDecoration(
@@ -117,12 +123,29 @@ class _HomePageState extends State<HomePage> {
                               ),
                               margin: const EdgeInsets.all(16.0),
                               padding: const EdgeInsets.all(16.0),
-                              child: Text(data[index].name),
+                              child: ListView(
+                                children: [
+                                  QuestionWidget(
+                                    question: data[index].question,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  data[index].typequestion ==
+                                          TypeQuestion.multichoice.name
+                                      ? MultipleChoiceWidget(
+                                          options: data[index].data,
+                                          onSelected: (value) {},
+                                        )
+                                      : const SizedBox.shrink()
+                                ],
+                              ),
                             );
                           },
                         ),
                       ),
-                      NumberNavigationQuizWidget(data: data),
+                      NumberNavigationQuizWidget(
+                        data: data,
+                        quizPageController: _pageController,
+                      ),
                       const SizedBox(height: 16.0),
                     ],
                   ),

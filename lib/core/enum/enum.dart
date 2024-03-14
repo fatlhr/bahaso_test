@@ -1,0 +1,1 @@
+enum TypeQuestion { multichoice, description }

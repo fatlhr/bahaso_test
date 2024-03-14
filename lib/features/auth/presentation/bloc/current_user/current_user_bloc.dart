@@ -22,7 +22,7 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
     Emitter<CurrentUserState> emit,
   ) async {
     final res = await _currentUser(NoParams());
-    print("res isUserLoggedIn: $res");
+    // print("res isUserLoggedIn: $res");
     return switch (res) {
       Success<User>(value: final data) => _emitCurrentUser(data, emit),
       // Failed<User>(message: final _) => emit(CurrentUserInitial()),

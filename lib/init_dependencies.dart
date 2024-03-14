@@ -16,6 +16,7 @@ import 'features/auth/domain/usecases/user_register.dart';
 import 'features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'features/auth/presentation/bloc/current_user/current_user_bloc.dart';
 import 'features/home/data/respositories/quiz_repository_impl.dart';
+import 'features/home/presentation/bloc/question_page/question_page_bloc.dart';
 import 'features/home/presentation/bloc/quiz_bloc/quiz_bloc.dart';
 
 final serviceLocator = GetIt.instance;
@@ -113,5 +114,8 @@ void _initHome() {
     () => QuizBloc(
       getQuiz: serviceLocator(),
     ),
+  );
+  serviceLocator.registerLazySingleton<QuestionPageBloc>(
+    () => QuestionPageBloc(),
   );
 }
