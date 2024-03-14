@@ -30,7 +30,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
       builder: (context, state) {
         return Column(
           children: [
-            Text(state.toString()),
+            // Text(state.toString()),
             ListView.builder(
               padding: EdgeInsets.zero,
               shrinkWrap: true,

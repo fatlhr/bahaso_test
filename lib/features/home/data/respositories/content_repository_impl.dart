@@ -13,8 +13,6 @@ class ContentRepositoryImpl implements ContentRepository {
       final contentType = response.headers.map['content-type']?.first;
 
       if (contentType != null) {
-        // print("contentType: ${contentType.split('/')[0]}");
-        // print("imge name: ${ContentType.image.name}");
         if (contentType.split('/')[0] == ContentType.image.name) {
           return ContentType.image.name;
         } else if (contentType.split('/')[0] == ContentType.audio.name) {

@@ -9,9 +9,9 @@ import 'video_widget.dart';
 class ContentItemWidget extends StatefulWidget {
   const ContentItemWidget({
     Key? key,
-    required this.contentType,
+    required this.contentUrl,
   }) : super(key: key);
-  final String contentType;
+  final String contentUrl;
 
   @override
   State<ContentItemWidget> createState() => _ContentItemWidgetState();
@@ -20,7 +20,7 @@ class ContentItemWidget extends StatefulWidget {
 class _ContentItemWidgetState extends State<ContentItemWidget> {
   @override
   void initState() {
-    context.read<ContentBloc>().add(DetectContentTypeEvent(widget.contentType));
+    context.read<ContentBloc>().add(DetectContentTypeEvent(widget.contentUrl));
     super.initState();
   }
 
@@ -29,21 +29,27 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
     return BlocBuilder<ContentBloc, ContentState>(
       builder: (context, state) {
         if (state is ContentTypeLoaded) {
-          print("state.contentType: ${state.contentType}");
-          return _buildContentWidget(state.contentType);
+          return _buildContentWidget(
+            contentType: state.contentType,
+            contentUrl: widget.contentUrl,
+          );
         }
         return const Text("load content...");
       },
     );
   }
 
-  Widget _buildContentWidget(String contentType) {
-    print("build content type: $contentType");
+  Widget _buildContentWidget({
+    required String contentType,
+    required String contentUrl,
+  }) {
     switch (contentType) {
       case 'image':
-        return const ImageWidget();
+        return ImageWidget(url: contentUrl);
       case 'audio':
-        return const AudioWidget();
+        return AudioWidget(
+          url: contentUrl,
+        );
       case 'video':
         return const VideoWidget();
       default:
