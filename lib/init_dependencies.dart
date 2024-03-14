@@ -1,6 +1,10 @@
 import 'package:bahaso_test/features/home/data/datasources/quiz_remote_datasource.dart';
+import 'package:bahaso_test/features/home/data/respositories/content_repository_impl.dart';
+import 'package:bahaso_test/features/home/domain/repository/content_repository.dart';
 import 'package:bahaso_test/features/home/domain/repository/quiz_repository.dart';
+import 'package:bahaso_test/features/home/domain/usecases/detect_content_type.dart';
 import 'package:bahaso_test/features/home/domain/usecases/get_quiz_usecase.dart';
+import 'package:bahaso_test/features/home/presentation/bloc/content/content_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -102,23 +106,34 @@ void _initHome() {
         serviceLocator(),
       ),
     )
+    ..registerFactory<ContentRepository>(
+      () => ContentRepositoryImpl(),
+    )
     // Usecases
     ..registerFactory<GetQuizUseCase>(
       () => GetQuizUseCase(
         serviceLocator(),
       ),
+    )
+    ..registerFactory<DetectContentTypeUsecase>(
+      () => DetectContentTypeUsecase(
+        serviceLocator(),
+      ),
     );
 
   // Register QuizBloc
-  serviceLocator.registerLazySingleton<QuizBloc>(
-    () => QuizBloc(
-      getQuiz: serviceLocator(),
-    ),
-  );
-  serviceLocator.registerLazySingleton<QuestionPageBloc>(
-    () => QuestionPageBloc(),
-  );
-  // serviceLocator.registerLazySingleton<MultipleChoiceBloc>(
-  //   () => MultipleChoiceBloc(9),
-  // );
+  serviceLocator
+    ..registerLazySingleton<QuizBloc>(
+      () => QuizBloc(
+        getQuiz: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton<QuestionPageBloc>(
+      () => QuestionPageBloc(),
+    )
+    ..registerLazySingleton<ContentBloc>(
+      () => ContentBloc(
+        serviceLocator(),
+      ),
+    );
 }

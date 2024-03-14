@@ -7,6 +7,7 @@ import 'core/theme/theme.dart';
 import 'features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'features/auth/presentation/bloc/current_user/current_user_bloc.dart';
 import 'features/auth/presentation/pages/login_page.dart';
+import 'features/home/presentation/bloc/content/content_bloc.dart';
 import 'features/home/presentation/bloc/question_page/question_page_bloc.dart';
 import 'features/home/presentation/pages/home_page.dart';
 import 'init_dependencies.dart';
@@ -32,9 +33,9 @@ void main() async {
         BlocProvider(
           create: (_) => serviceLocator<QuestionPageBloc>(),
         ),
-        // BlocProvider(
-        //   create: (_) => serviceLocator<MultipleChoiceBloc>(),
-        // ),
+        BlocProvider(
+          create: (_) => serviceLocator<ContentBloc>(),
+        ),
       ],
       child: const MyApp(),
     ),

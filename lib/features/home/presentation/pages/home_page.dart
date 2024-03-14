@@ -25,7 +25,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final PageController _pageController = PageController();
-
+  @override
   @override
   Widget build(BuildContext context) {
     final questionPageBloc = BlocProvider.of<QuestionPageBloc>(context);
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                                     data[index].typequestion ==
                                             TypeQuestion.multichoice.name
                                         ? MultipleChoiceWidget(
-                                          page:index,
+                                            page: index,
                                             data: data[index],
                                           )
                                         : const SizedBox.shrink()
