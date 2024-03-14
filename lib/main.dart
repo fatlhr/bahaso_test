@@ -31,7 +31,10 @@ void main() async {
         ),
         BlocProvider(
           create: (_) => serviceLocator<QuestionPageBloc>(),
-        )
+        ),
+        // BlocProvider(
+        //   create: (_) => serviceLocator<MultipleChoiceBloc>(),
+        // ),
       ],
       child: const MyApp(),
     ),

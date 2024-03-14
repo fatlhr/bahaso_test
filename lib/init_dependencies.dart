@@ -118,4 +118,7 @@ void _initHome() {
   serviceLocator.registerLazySingleton<QuestionPageBloc>(
     () => QuestionPageBloc(),
   );
+  // serviceLocator.registerLazySingleton<MultipleChoiceBloc>(
+  //   () => MultipleChoiceBloc(9),
+  // );
 }

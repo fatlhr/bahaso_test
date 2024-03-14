@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_pallete.dart';
 import '../../../auth/presentation/bloc/current_user/current_user_bloc.dart';
 import '../../../auth/presentation/pages/login_page.dart';
+import '../bloc/multiple_choice/multiple_choice_bloc.dart';
 import '../bloc/quiz_bloc/quiz_bloc.dart';
 import '../widgets/multiple_choice_widget.dart';
 import '../widgets/number_navigation_quiz_widget.dart';
@@ -106,40 +107,47 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       Expanded(
-                        child: PageView.builder(
-                          controller: _pageController,
-                          itemCount: data.length,
-                          onPageChanged: (int page) {
-                            questionPageBloc
-                                .add(QuestionPageUpdated(pageIndex: page));
-                          },
-                          itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              decoration: const BoxDecoration(
-                                color: AppPallete.borderColor,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(30.0),
-                                ),
-                              ),
-                              margin: const EdgeInsets.all(16.0),
-                              padding: const EdgeInsets.all(16.0),
-                              child: ListView(
-                                children: [
-                                  QuestionWidget(
-                                    question: data[index].question,
+                        child: BlocProvider(
+                          create: (context) => MultipleChoiceBloc(
+                            data.length,
+                          ),
+                          child: PageView.builder(
+                            controller: _pageController,
+                            itemCount: data.length,
+                            onPageChanged: (int page) {
+                              questionPageBloc.add(
+                                QuestionPageUpdated(pageIndex: page),
+                              );
+                              print('on page change: $page');
+                            },
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                decoration: const BoxDecoration(
+                                  color: AppPallete.borderColor,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(30.0),
                                   ),
-                                  const SizedBox(height: 16),
-                                  data[index].typequestion ==
-                                          TypeQuestion.multichoice.name
-                                      ? MultipleChoiceWidget(
-                                          options: data[index].data,
-                                          onSelected: (value) {},
-                                        )
-                                      : const SizedBox.shrink()
-                                ],
-                              ),
-                            );
-                          },
+                                ),
+                                margin: const EdgeInsets.all(16.0),
+                                padding: const EdgeInsets.all(16.0),
+                                child: ListView(
+                                  children: [
+                                    QuestionWidget(
+                                      question: data[index].question,
+                                    ),
+                                    const SizedBox(height: 16),
+                                    data[index].typequestion ==
+                                            TypeQuestion.multichoice.name
+                                        ? MultipleChoiceWidget(
+                                          page:index,
+                                            data: data[index],
+                                          )
+                                        : const SizedBox.shrink()
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                       NumberNavigationQuizWidget(
